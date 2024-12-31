@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstraFidelis LLC - Financial Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images/logo.png' %}" alt="AstraFidelis LLC Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Financial Markets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">More</a></li>
+                </ul>
+                <div class="auth-buttons">
+                  {% if user.is_authenticated %}
+                      <a href="#" class="btn btn-profile">Profile</a>
+                      <a href="{% url 'logout' %}" class="btn btn-logout">Logout</a>
+                  {% else %}
+                      <a href="{% url 'login' %}" class="btn btn-login">Login</a>
+                      <a href="#" class="btn btn-signup">Signup</a>
+                  {% endif %}
+              </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="finance-section">
+                    <h1 class="hero-title">Learn Finance,</h1>
+                    <div class="d-flex">
+                        <div class="hero-images-left">
+                            <img src="{% static 'images/hero_image1.png' %}" alt="Corporate team meeting" class="hero-image">
+                            <img src="{% static 'images/hero_image3.png' %}" alt="Growing coins" class="hero-image">
+                        </div>
+                        <div class="hero-images-right">
+                            <img src="{% static 'images/hero_image2.png' %}" alt="Stock market screen" class="hero-image centered">
+                        </div>
+                    </div>
+                    <h2 class="hero-title mt-4">Build Wealth.</h2>
+                </div>
+                <div class="explore-section">
+                    <div class="explore-content">
+                        <h3 class="explore-title">Explore by<br>Searching<br>right</h3>
+                        <div class="search-controls">
+                            <select class="form-select mb-3">
+                                <option>Filter...</option>
+                            </select>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News and Trending Section -->
+    <section class="news-section">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8">
+                  <h2 class="mb-4">TOP NEWS</h2>
+                  <div class="news-grid">
+                      <div class="news-card"></div>
+                      <div class="news-card"></div>
+                      <div class="news-card"></div>
+                      <div class="news-card"></div>
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="trending-container">
+                      <h4 class="mb-3">STOCK</h4>
+                      <div class="trending-grid mb-4">
+                          <div class="trending-item">Trending Stock 1</div>
+                          <div class="trending-item">Trending Stock 2</div>
+                          <div class="trending-item">Trending Stock 3</div>
+                          <div class="trending-item">Trending Stock 4</div>
+                          <div class="trending-item">Trending Stock 5</div>
+                          <div class="trending-item">Trending Stock 6</div>
+                      </div>
+                      
+                      <h4 class="mb-3">CRYPTO</h4>
+                      <div class="trending-grid">
+                          <div class="trending-item">Trending Crypto 1</div>
+                          <div class="trending-item">Trending Crypto 2</div>
+                          <div class="trending-item">Trending Crypto 3</div>
+                          <div class="trending-item">Trending Crypto 4</div>
+                          <div class="trending-item">Trending Crypto 5</div>
+                          <div class="trending-item">Trending Crypto 6</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-md-2">
+                    <h5>Quick Links</h5>
+                    <a href="#">About us</a>
+                    <a href="#">Services</a>
+                    <a href="#">Learn</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Career</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="col-md-3">
+                    <h5>Legal Information</h5>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms and Condition</a>
+                    <a href="#">Disclaimer</a>
+                </div>
+                <div class="col-md-4">
+                    <h5>Company Information</h5>
+                    <p>AstraFidelis LLC</p>
+                    <p>Email: support@astrafidelis.com</p>
+                    <p>Phone: 080 XXX XX XXX</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center footer-bottom">
+                <p>© 2024 AstraFidelis LLC. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
