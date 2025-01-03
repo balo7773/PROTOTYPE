@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "accounts.apps.AccountsConfig",
-    "pages.apps.PagesConfig",
+    "home_page.apps.PagesConfig",
 ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"

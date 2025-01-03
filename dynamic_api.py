@@ -1,19 +1,34 @@
-#!/usr/bin/python3:wq
+#!/usr/bin/python3
 
 from urllib.request import urlopen, Request
+import requests
 from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+import os
+from datetime import datetime
+# Load environment variables from .env file
+load_dotenv()
+api_key = os.getenv('NEWS_API_KEY')
+params = {
+            'api_token' : api_key,
+            'published_on' : datetime.now().strftime('%Y-%m-%d'),
+            'categories' : 'business',
+            'locale' : 'us',
+            'language' : 'en'
+        }
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'} # header
 class News_API:
 
-    def __init__ (self, Title='', Author='', Publishers='News_API', Description='', Link='', Date='', Data=[]):
+    def __init__ (self, Title='', Author='', Publishers='News_API', Description='', Link='', Date='', Image='', Data=[]):
         self.Title = Title
         self.Author = Author
         self.Publishers = Publishers
         self.Description = Description
         self.Link = Link
         self.Date = Date
+        self.Image = Image
         self.Data = Data
 
     def add_data(self):
@@ -23,6 +38,7 @@ class News_API:
                         'Publishers' : self.Publishers,
                         'Description' : self.Description,
                         'Link' : self.Link,
+                        'Image' : self.Image,
                         'Date' : self.Date 
                     }
         self.Data.append(new_data)
@@ -106,3 +122,24 @@ class BusinessDay(News_API):
 
         return self.get_data()
             
+class USA_NEWS(News_API):
+
+
+    def __init__(self, Title='', Author='',Publishers='', Description='', Link='', Image ='', Date=''):
+        super().__init__(Title, Author, Publishers, Description, Link, Image, Date)
+
+    def get_market_news(self):
+        response = requests.get(f'https://api.thenewsapi.com/v1/news/top', params=params)
+        response_data = response.json().get('data', {})
+        
+        for item in response_data:
+            Title = item.get('title')
+            Link = item.get('url')
+            Description = item.get('description')
+            Date = datetime.strptime(item.get('published_at'), '%Y-%m-%d').strftime('%Y-%m-%d')
+            Publishers = item.get('source')
+            Image = item.get('image_url')
+
+            self.add_data(Title=Title, Publishers=Publishers, Description=Description, Link=Link, Image=Image, Date=Date)
+
+        return self.get_data()
