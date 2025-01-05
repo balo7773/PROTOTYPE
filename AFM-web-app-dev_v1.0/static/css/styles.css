@@ -3,6 +3,7 @@
   --primary-blue: #1e2b7b;
   --trending-blue: #0d1756;
   --accent-teal: #00bcd4;
+  --card-bg: #006D7C
 }
 
 body {
@@ -210,7 +211,7 @@ body {
 /* Slideshow improvements */
 .slideshow-container {
   width: 100%;
-  height: 450px; /* Fixed height for slideshow */
+  height: 485px; /* Fixed height for slideshow */
   position: relative;
   overflow: hidden;
   border-radius: 12px;
@@ -303,7 +304,8 @@ body {
 } */
 
 .btn-primary {
-  height: 50px;
+  padding: 1.8rem 1rem;
+  height: 45px;
   min-width: 50px;
   border-radius: 8px !important;
   background-color: var(--primary-blue);
@@ -318,6 +320,9 @@ body {
   background-color: var(--trending-blue);
   transform: translateY(-2px);
 }
+
+
+
 
 /* Responsive Improvements */
 @media (max-width: 991px) {
@@ -355,47 +360,167 @@ body {
       font-size: 2rem;
   }
 }
+/* rsponse end */
 
-        /* News Section Refinements */
-        .news-section {
-          background-color: var(--accent-teal);
-          padding: 2rem 0;
-      }
 
-      .news-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-          padding-right: 2rem;
-      }
 
-      .news-card {
-          background: #000;
-          height: 180px;
-          border-radius: 8px;
-      }
 
-      /* Trending Section Refinements */
-      .trending-container {
-          background-color: var(--deep-blue);
-          padding: 1.5rem;
-          border-radius: 8px;
-          color: white;
-      }
+/* News Section */
+.middle-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+}
 
-      .trending-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 0.75rem;
-      }
+.news-side {
+  background-color: #08B2C4;
+  padding: 20px;
+}
 
-      .trending-item {
-          background: var(--secondary-blue);
-          padding: 0.5rem;
-          border-radius: 4px;
-          text-align: center;
-          font-size: 0.9rem;
-      }
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.news-card {
+  background-color: #032024;
+  border-radius: 8px;
+  padding: 20px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.news-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.news-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.news-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-title {
+  color: white;
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.3;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.news-description {
+  color: #ffffff99;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.read-more {
+  color: #08B2C4;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+.news-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  font-size: 12px;
+  color: #ffffff80;
+}
+
+.news-author {
+  display: flex;
+  gap: 8px;
+}
+
+.author {
+  color: #ffffff99;
+}
+
+.publisher {
+  color: #ffffff80;
+}
+
+.news-date {
+  color: #ffffff80;
+}
+
+
+.news-side h2 {
+  color: black;
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+.trending-side {
+  background-color: #03425be2;
+  padding: 20px;
+}
+
+/* Add new style for trending title */
+.trending-side h2 {
+  color: black;
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+/* Trading View container styles */
+.tradingview-container {
+  height: 100%;
+  width: 100%;
+}
+
+.tradingview-widget-container {
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .middle-section {
+      grid-template-columns: 1fr;
+  }
+  
+  .news-grid {
+      grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+
+
 
 
 /* Footer Styles */
@@ -445,17 +570,6 @@ body {
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Form Controls */
-.form-select,
-.form-control {
-  height: 45px;
-  font-size: 1.1rem;
-}
-
-.btn-primary {
-  height: 45px;
-  padding: 0 1.5rem;
-}
 
 
 
@@ -475,7 +589,7 @@ body {
 .fa-instagram { color: #E4405F; }
 .fa-youtube { color: #FF0000; }
 
-/* Form Controls */
+/* Form Controls
 .form-select,
 .form-control {
   height: 45px;
@@ -486,3 +600,11 @@ body {
   height: 45px;
   padding: 0 1.5rem;
 }
+
+.form-select,
+.form-control {
+  height: 45px;
+  font-size: 1.1rem;
+}
+
+*/

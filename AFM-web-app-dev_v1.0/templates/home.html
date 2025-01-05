@@ -98,45 +98,69 @@
         </div>
     </section>
 
-    <!-- News and Trending Section -->
-    <section class="news-section">
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-8">
-                  <h2 class="mb-4">TOP NEWS</h2>
-                  <div class="news-grid">
-                      <div class="news-card"></div>
-                      <div class="news-card"></div>
-                      <div class="news-card"></div>
-                      <div class="news-card"></div>
-                  </div>
-              </div>
-              <div class="col-lg-4">
-                  <div class="trending-container">
-                      <h4 class="mb-3">STOCK</h4>
-                      <div class="trending-grid mb-4">
-                          <div class="trending-item">Trending Stock 1</div>
-                          <div class="trending-item">Trending Stock 2</div>
-                          <div class="trending-item">Trending Stock 3</div>
-                          <div class="trending-item">Trending Stock 4</div>
-                          <div class="trending-item">Trending Stock 5</div>
-                          <div class="trending-item">Trending Stock 6</div>
-                      </div>
-                      
-                      <h4 class="mb-3">CRYPTO</h4>
-                      <div class="trending-grid">
-                          <div class="trending-item">Trending Crypto 1</div>
-                          <div class="trending-item">Trending Crypto 2</div>
-                          <div class="trending-item">Trending Crypto 3</div>
-                          <div class="trending-item">Trending Crypto 4</div>
-                          <div class="trending-item">Trending Crypto 5</div>
-                          <div class="trending-item">Trending Crypto 6</div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </section>
+    <div class="middle-section">
+        <!-- Left Side - News -->
+        <div class="news-side">
+            <h2>TOP NEWS</h2>
+            <div class="news-grid">
+                {% for news in top_news %}
+                <div class="news-card">
+                    <div class="news-header">
+                        <div class="news-logo">
+                            <img src="{{ news.Image }}" alt="{{ news.Publishers }} logo">
+                        </div>
+                        <h3 class="news-title">{{ news.Title }}</h3>
+                    </div>
+                    <p class="news-description">
+                        {{ news.Description }}
+                        <a href="{{ news.Link }}" class="read-more">Read more</a>
+                    </p>
+                    <div class="news-footer">
+                        <div class="news-author">
+                            <span class="author">{{ news.Author }}</span>
+                            <span class="publisher">{{ news.Publishers }}</span>
+                        </div>
+                        <div class="news-date">{{ news.Date }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- Right Side - Trading Widget -->
+        <div class="trending-side">
+            <h2>TRENDING</h2>
+            <div class="tradingview-container">
+                <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-hotlists.js" async>
+                    {
+                        "colorTheme": "dark",
+                        "dateRange": "1D",
+                        "exchange": "NYSE",
+                        "showChart": true,
+                        "locale": "en",
+                        "largeChartUrl": "http://localhost:8000",
+                        "isTransparent": true,
+                        "showSymbolLogo": true,
+                        "showFloatingTooltip": false,
+                        "width": "100%",
+                        "height": "600",
+                        "plotLineColorGrowing": "rgba(0, 255, 0, 0.89)",
+                        "plotLineColorFalling": "rgba(255, 0, 0, 1)",
+                        "gridLineColor": "rgba(42, 46, 57, 0)",
+                        "scaleFontColor": "rgba(209, 212, 220, 1)",
+                        "belowLineFillColorGrowing": "rgba(0, 0, 0, 0.5)",
+                        "belowLineFillColorFalling": "rgba(0, 0, 0, 0.28)",
+                        "belowLineFillColorGrowingBottom": "rgba(0, 255, 0, 0.34)",
+                        "belowLineFillColorFallingBottom": "rgba(255, 0, 0, 0.39)",
+                        "symbolActiveColor": "rgba(41, 98, 255, 0.12)"
+                    }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
     
 {% block javascript%}
