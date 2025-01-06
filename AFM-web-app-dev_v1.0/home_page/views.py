@@ -15,30 +15,43 @@ def home_page_view(request):
 """
 
 class HomePageView(ListView):
+    '''
+    Inherits from django ListView,
+    to display home page.
+    '''
 
     template_name = "home.html"
-    context_object_name = "top_news"
+    context_object_name = "top_news" # News identifier in django template.
 
     def get_queryset(self):
+        '''
+        Django named function to return data to views
+        
+        Return:
+        returns data to be used on home template
+        '''
         nairametrics = NairaMetrics().get_market_news()
         this_daily_live = ThisDailyLive().get_market_news()
         businessday = BusinessDay().get_market_news()
         usa_news = USA_NEWS().get_market_news()
         List_of_news = nairametrics + this_daily_live + businessday + usa_news
         
-        NEWS = []
+        NEWS = [] # Storing top news data.
         today = datetime.now().date()
         
         for all_news in List_of_news:
-            news_date = all_news.get('Date')
+            # Loop through list of news,
+            # to get only up to date news.
+            news_date = all_news.get('Date') # Get all news date.
             if news_date:
                 try:
-                    # Try parsing the date string using dateutil
+                    #  Parsing the date string using dateutil.
                     if isinstance(news_date, str):
                         parsed_date = parser.parse(news_date).date()
                     else:
                         parsed_date = news_date.date()
-                    
+
+                    # If the date is today, append news.
                     if parsed_date == today:
                         NEWS.append(all_news)
                         print(f"Added news item: {all_news.get('Title')}")  # Debug print
