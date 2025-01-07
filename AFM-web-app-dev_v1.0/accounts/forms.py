@@ -7,15 +7,7 @@ from django.core.validators import validate_email
 class SignUpForm(UserCreationForm):
     email = forms.EmailField()
 
-    # Age field choices
-    age_choices = [
-        ('0-18', '0-18'), 
-        ('18-35', '18-35'),
-        ('36-50', '36-50'),
-        ('51-65', '51-65'),
-        ('65+', '65+')
-    ]
-    age = forms.ChoiceField(choices=age_choices, required=True, label="Select Age Group")
+    age = forms.ChoiceField(choices=CustomUser.AGE_CHOICES, required=True, label="Select Age Group")
     fullname = forms.CharField(max_length=255, required=True, label="Full Name")
 
     class Meta:
