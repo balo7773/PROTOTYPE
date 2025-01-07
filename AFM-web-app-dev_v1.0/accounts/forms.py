@@ -1,29 +1,26 @@
-# accounts/forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth import get_user_model
+from .models import CustomUser  # Import CustomUser model
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
-class CustomUserCreationForm(UserCreationForm):
-    full_name = forms.CharField(max_length=70, label="Full Name")
-    age = forms.IntegerField(label="Age", min_value=0)
-    password1 = forms.CharField(
-        label="Password",
-        widget=forms.PasswordInput,
-    )
-    password2 = forms.CharField(
-        label="Confirm Password",
-        widget=forms.PasswordInput,
-    )
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField()
+
+    # Age field choices
+    age_choices = [
+        ('0-18', '0-18'), 
+        ('18-35', '18-35'),
+        ('36-50', '36-50'),
+        ('51-65', '51-65'),
+        ('65+', '65+')
+    ]
+    age = forms.ChoiceField(choices=age_choices, required=True, label="Select Age Group")
+    fullname = forms.CharField(max_length=255, required=True, label="Full Name")
 
     class Meta:
-        model = get_user_model()
-        fields = (
-            "full_name",
-            "email",
-            "age",
-            "password1",
-            "password2",
-        )
+        model = CustomUser  # Use CustomUser here, not User
+        fields = ['username', 'email', 'password1', 'password2', 'age', 'fullname']    
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -31,16 +28,36 @@ class CustomUserCreationForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords do not match.")
         return password2
+    
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
 
+        # Check if username is less than 4 characters
+        if len(username) < 4:
+            raise forms.ValidationError("Username must be at least 4 characters long.")
 
-class CustomUserChangeForm(UserChangeForm):
-    full_name = forms.CharField(max_length=70, label="Full Name")
-    age = forms.IntegerField(label="Age", min_value=0)
+        return username
+
+class LoginForm(AuthenticationForm):
+    username_or_email = forms.CharField(label="Username or Email", max_length=254)
 
     class Meta:
-        model = get_user_model()
-        fields = (
-            "full_name",
-            "email",
-            "age",
-        )
+        model = CustomUser  # Use CustomUser here, not User
+        fields = ['username_or_email', 'password']
+
+    def clean_username_or_email(self):
+        username_or_email = self.cleaned_data['username_or_email']
+
+        # Check if the input is an email
+        try:
+            validate_email(username_or_email)
+            user = CustomUser.objects.filter(email=username_or_email).first()  # Use CustomUser
+            if not user:
+                raise ValidationError("No user found with this email address.")
+        except ValidationError:
+            # If it's not a valid email, treat it as a username
+            user = CustomUser.objects.filter(username=username_or_email).first()  # Use CustomUser
+            if not user:
+                raise ValidationError("No user found with this username.")
+
+        return username_or_email

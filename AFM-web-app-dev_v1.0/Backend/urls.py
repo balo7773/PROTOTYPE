@@ -21,7 +21,7 @@ urlpatterns = [
     # Django admin
     path("admin/", admin.site.urls),
     # User management
-    path("accounts/", include("django.contrib.auth.urls")), # new
+    path("accounts/", include("accounts.urls")), # new
     # Local apps
     path("", include("home_page.urls")),
 ]

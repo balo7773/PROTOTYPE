@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<h1>SIGN UP</h1>
+<div class="container">
+    <div class="signup-container signup-form">
+        <img src="/api/placeholder/150/50" alt="Logo" class="logo">
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                {{ form.fullname }}
+                {% if form.first_name.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.first_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age</label>
+                {{ form.age }}
+                {% if form.age.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.age.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password1.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password2.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" name="terms_of_service" required>
+                <label for="terms">Terms and Conditions</label>
+                {% if form.terms_of_service.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.terms_of_service.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <button type="submit">SUBMIT</button>
+        </form>
+    </div>
+    
+    <div class="content-container">
+        <h2 class="content-heading">EMPOWERMENT THROUGH FINANCIAL LITERACY.</h2>
+        <h2 class="content-heading">LEARN, INVEST AND BUILD WEALTH</h2>
+    </div>
+</div>
+
+{% endblock content %}
