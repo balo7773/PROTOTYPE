@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="news-page-container">
+    <h1 class="news-page-title">LATEST NEWS</h1>
+    
+    <div class="news-filter-container text-center">
+        <select class="news-filter-select">
+            <option selected>Filter...</option>
+            <option value="1">Category 1</option>
+            <option value="2">Category 2</option>
+            <option value="3">Category 3</option>
+        </select>
+    </div>
+
+    <div class="news-article-grid">
+        {% for news in news %}
+        <a href="{{ news.Link }}" class="news-article-card" target="_blank">
+            <img src="{{ news.Image|default:'default-news-image.jpg' }}" alt="{{ news.Title }}" class="news-article-image">
+            <div class="news-article-content">
+                <h3 class="news-article-title">{{ news.Title }}</h3>
+                <p class="news-article-description">
+                    {{ news.Description }}
+                </p>
+                <div class="news-article-footer">
+                    <div class="news-article-meta">
+                        <div class="news-article-publisher">{{ news.Publishers }}</div>
+                        <div>{{ news.Author }}</div>
+                    </div>
+                    <div class="news-date">{{ news.Date }}</div>
+                </div>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="news-preview-card">
+                <div class="preview-header">
+                    <img src="{{ news.Image }}" alt="{{ news.Publishers }}" class="preview-source-image">
+                    <h4 class="preview-title">{{ news.Publishers }}</h4>
+                </div>
+                <div class="preview-content">
+                    <h5 class="preview-title">{{ news.Title }}</h5>
+                    <p>{{ news.Description|truncatewords:50 }}</p>
+                </div>
+                <div class="preview-meta">
+                    <span>{{ news.Author }}</span>
+                    <span>{{ news.Date }}</span>
+                </div>
+                <div class="preview-footer">
+                    <span class="preview-link">Click to read full article »</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination news-pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+            </li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+                {% if i >= page_obj.number|add:-2 and i <= page_obj.number|add:2 %}
+                    <li class="page-item {% if i == page_obj.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

@@ -1,38 +1,42 @@
 # accounts/models.py
-# Create your models here.
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from django.contrib.auth.base_user import BaseUserManager
+from django.utils.translation import gettext_lazy as _
+
+class CustomUserManager(BaseUserManager):
+    """Custom manager for CustomUser with email as the unique identifier."""
+
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError(_('The Email field must be set'))
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True.'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_superuser=True.'))
+
+        return self.create_user(email, password, **extra_fields)
+
 
 class CustomUser(AbstractUser):
-    # Any custom fields for your CustomUser model
-    AGE_CHOICES = [
-        ('0-18', '0-18'),
-        ('18-35', '18-35'),
-        ('36-50', '36-50'),
-        ('51-65', '51-65'),
-        ('65+', '65+'),
-    ]
+    # Remove the username field
+    username = None
+    email = models.EmailField(unique=True)
+    full_name = models.CharField(max_length=70, default="Default Name")
+    age = models.PositiveIntegerField(null=True, blank=True)
 
-    age = models.CharField(
-        max_length=5,  # The length here should match the length of the longest choice
-        choices=AGE_CHOICES,
-        default='18-35'
-    )
-    fullname = models.CharField(max_length=255, blank=True, null=True)
+    USERNAME_FIELD = "email"  # Set email as the unique identifier
+    REQUIRED_FIELDS = ["full_name", "age"]  # Fields required when creating a user
 
-    # Add related_name to groups and user_permissions to avoid clashes
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='customuser_set',  # Different related_name from the default User
-        blank=True,
-        help_text='The groups this user belongs to.'
-    )
-
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='customuser_permissions_set',  # Different related_name from the default User
-        blank=True,
-        help_text='Specific permissions for this user.'
-    )
+    objects = CustomUserManager()  # Link the custom manager

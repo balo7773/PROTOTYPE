@@ -1,34 +1,27 @@
+# accounts/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
-from .forms import SignUpForm  # Ensure you import your form here if needed
 from .models import CustomUser
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
-try:
-    admin.site.unregister(CustomUser)
-except admin.sites.NotRegistered:
-    pass  # Ignore error if CustomUser is not registered
-
-# Now register CustomUser with the default UserAdmin
-admin.site.register(CustomUser, UserAdmin)
-
-
-'''class CustomUserAdmin(UserAdmin):
-    model = User
-    # Include other fields you want to display in the list view
-    list_display = ('username',
-                    'email',
-                    'age',
-                    'is_staff',
-                    'is_active',
-                    'is_superuser',
-                    'date_joined')
-    
-    # Add the fields you want to show/edit in the form view
-    fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('age',)}),
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUser
+    list_display = ("email", "full_name", "age", "is_staff", "is_active")
+    list_filter = ("is_staff", "is_active")
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        ("Personal Info", {"fields": ("full_name", "age")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
     )
-    # Add the age field to the add form if you're customizing
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('age',)}),
-    )'''
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": ("email", "full_name", "age", "password1", "password2", "is_staff", "is_active"),
+        }),
+    )
+    search_fields = ("email",)
+    ordering = ("email",)
+
+admin.site.register(CustomUser, CustomUserAdmin)

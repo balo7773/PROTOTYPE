@@ -5,6 +5,7 @@ from django.views.generic import ListView
 from .dynamic_api import NairaMetrics, ThisDailyLive, BusinessDay, USA_NEWS
 from datetime import datetime, date
 from dateutil import parser
+
 """
 from django.http import HttpResponse
 def home_page_view(request):
@@ -64,3 +65,62 @@ class HomePageView(ListView):
         
         print(f"Final number of news items: {len(NEWS)}")
         return NEWS
+
+
+class NewsListView(ListView):
+    '''
+    Class-based view to display paginated news from various sources.
+    '''
+    template_name = "news.html"
+    context_object_name = "news"  # Variable name in the template
+    paginate_by = 12  # Number of items per page
+
+    def get_queryset(self):
+        '''
+        Override the method to dynamically fetch and filter news.
+        
+        Return:
+        - List of today's news items from multiple sources.
+        '''
+        # Fetch news from different sources
+        nairametrics = NairaMetrics().get_market_news()
+        this_daily_live = ThisDailyLive().get_market_news()
+        businessday = BusinessDay().get_market_news()
+        usa_news = USA_NEWS().get_market_news()
+        List_of_news = nairametrics + this_daily_live + businessday + usa_news
+
+        NEWS = []  # List to store today's news
+        today = datetime.now().date()
+
+        for all_news in List_of_news:
+            # Loop through all news items to filter by today's date
+            news_date = all_news.get('Date')  # Get the date of the news item
+            if news_date:
+                try:
+                    # Parse the date string using dateutil
+                    if isinstance(news_date, str):
+                        parsed_date = parser.parse(news_date).date()
+                    else:
+                        parsed_date = news_date.date()
+
+                    # Append the news if the date is today
+                    #if parsed_date == today:
+                    NEWS.append(all_news)
+
+                except (ValueError, AttributeError) as e:
+                    print(f"Error parsing date: {news_date}, Error: {e}")
+                    continue
+
+        return NEWS
+
+"""from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import News  # Replace with your model
+
+def news_list(request):
+    news = News.objects.all()
+    paginator = Paginator(news, 12)  # 12 items per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'news.html', {'page_obj': page_obj})
+"""

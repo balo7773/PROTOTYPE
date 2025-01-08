@@ -1,18 +1,41 @@
+# accounts/forms.py
 from django import forms
-from .models import CustomUser  # Import CustomUser model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth import get_user_model, authenticate
 
-class SignUpForm(UserCreationForm):
-    email = forms.EmailField()
 
-    age = forms.ChoiceField(choices=CustomUser.AGE_CHOICES, required=True, label="Select Age Group")
-    fullname = forms.CharField(max_length=255, required=True, label="Full Name")
+class CustomUserCreationForm(UserCreationForm):
+
+    # Add to your CustomUserCreationForm class
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['full_name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Full Name'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Email'})
+        self.fields['age'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Age'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Password'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirm Password'})
+
+
+    full_name = forms.CharField(max_length=70, label="Full Name")
+    age = forms.IntegerField(label="Age", min_value=0)
+    password1 = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput,
+    )
+    password2 = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput,
+    )
 
     class Meta:
-        model = CustomUser  # Use CustomUser here, not User
-        fields = ['username', 'email', 'password1', 'password2', 'age', 'fullname']    
+        model = get_user_model()
+        fields = (
+            "full_name",
+            "email",
+            "age",
+            "password1",
+            "password2",
+        )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -20,36 +43,42 @@ class SignUpForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords do not match.")
         return password2
-    
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
 
-        # Check if username is less than 4 characters
-        if len(username) < 4:
-            raise forms.ValidationError("Username must be at least 4 characters long.")
 
-        return username
-
-class LoginForm(AuthenticationForm):
-    username_or_email = forms.CharField(label="Username or Email", max_length=254)
+class CustomUserChangeForm(UserChangeForm):
+    full_name = forms.CharField(max_length=70, label="Full Name")
+    age = forms.IntegerField(label="Age", min_value=0)
 
     class Meta:
-        model = CustomUser  # Use CustomUser here, not User
-        fields = ['username_or_email', 'password']
+        model = get_user_model()
+        fields = (
+            "full_name",
+            "email",
+            "age",
+        )
 
-    def clean_username_or_email(self):
-        username_or_email = self.cleaned_data['username_or_email']
 
-        # Check if the input is an email
-        try:
-            validate_email(username_or_email)
-            user = CustomUser.objects.filter(email=username_or_email).first()  # Use CustomUser
+class CustomLoginForm(AuthenticationForm):
+    username = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Email',
+        }),
+        label="Email",
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Password',
+        }),
+        label="Password",
+    )
+
+    def clean(self):
+        email = self.cleaned_data.get('username')  # This field is renamed as username by Django
+        password = self.cleaned_data.get('password')
+        if email and password:
+            user = authenticate(self.request, username=email, password=password)
             if not user:
-                raise ValidationError("No user found with this email address.")
-        except ValidationError:
-            # If it's not a valid email, treat it as a username
-            user = CustomUser.objects.filter(username=username_or_email).first()  # Use CustomUser
-            if not user:
-                raise ValidationError("No user found with this username.")
-
-        return username_or_email
+                raise forms.ValidationError("Invalid email or password.")
+        return self.cleaned_data
