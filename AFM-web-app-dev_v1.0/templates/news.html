@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 <div class="news-page-container">
     <h1 class="news-page-title">LATEST NEWS</h1>
@@ -16,7 +16,14 @@
     <div class="news-article-grid">
         {% for news in news %}
         <a href="{{ news.Link }}" class="news-article-card" target="_blank">
-            <img src="{{ news.Image|default:'default-news-image.jpg' }}" alt="{{ news.Title }}" class="news-article-image">
+            <div class="N-logo">
+                <img src="{% if news.Image|slice:":4" == "http" %}
+                                {{ news.Image }}
+                            {% else %}
+                                {% static news.Image %}
+                            {% endif %}" 
+                alt="{{ news.Title }} logo">
+            </div>
             <div class="news-article-content">
                 <h3 class="news-article-title">{{ news.Title }}</h3>
                 <p class="news-article-description">
@@ -34,7 +41,14 @@
             <!-- Preview Card -->
             <div class="news-preview-card">
                 <div class="preview-header">
-                    <img src="{{ news.Image }}" alt="{{ news.Publishers }}" class="preview-source-image">
+                    <div class="N-logo">
+                        <img src="{% if news.Image|slice:":4" == "http" %}
+                                        {{ news.Image }}
+                                    {% else %}
+                                        {% static news.Image %}
+                                    {% endif %}" 
+                        alt="{{ news.Title }} logo">
+                    </div>
                     <h4 class="preview-title">{{ news.Publishers }}</h4>
                 </div>
                 <div class="preview-content">

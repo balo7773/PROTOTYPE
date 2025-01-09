@@ -107,7 +107,12 @@
                 <div class="news-card">
                     <div class="news-header">
                         <div class="news-logo">
-                            <img src="{{ news.Image }}" alt="{{ news.Publishers }} logo">
+                            <img src="{% if news.Image|slice:":4" == "http" %}
+                                            {{ news.Image }}
+                                        {% else %}
+                                            {% static news.Image %}
+                                        {% endif %}" 
+                            alt="{{ news.Title }} logo">
                         </div>
                         <h3 class="news-title">{{ news.Title }}</h3>
                     </div>

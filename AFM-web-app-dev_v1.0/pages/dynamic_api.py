@@ -79,7 +79,7 @@ class NairaMetrics(News_API):
     '''
     def __init__(self, Title='', Author='', Publishers='NairaMetrics', Description='', Link='', Image='', Date=''):
         super().__init__(Title, Author, Publishers, Description, Link, Image, Date)
-        self.Image_path = 'static/images/Nairametrics.jpg'
+        self.Image_path = '/images/Nairametrics.jpg'
 
     def get_market_news(self):
         # Function to get market news from news feed.
@@ -121,7 +121,7 @@ class ThisDailyLive(News_API):
     '''
     def __init__(self, Title='', Author='', Publishers='ThisDailyLive', Description='', Link='', Image='',Date=''):
         super().__init__(Title, Author, Publishers, Description, Link, Image, Date)
-        self.Image_path = 'static/images/Thisdailylive.jpg'
+        self.Image_path = '/images/Thisdailylive.jpg'
 
     def get_market_news(self):
         # Function to get market news from news feed.
@@ -157,7 +157,7 @@ class BusinessDay(News_API):
     '''
     def __init__(self, Title='', Author='', Publishers='BusinessDay', Description='', Link='', Date=''):
         super().__init__(Title, Author, Publishers, Description, Link, Date)
-        self.Image_path = 'static/images/Businessday.png'
+        self.Image_path = '/images/Businessday.png'
 
     def get_market_news(self):
         # Function to get market news from news feed.

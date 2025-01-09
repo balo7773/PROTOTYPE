@@ -90,7 +90,6 @@ class NewsListView(ListView):
         List_of_news = nairametrics + this_daily_live + businessday + usa_news
 
         NEWS = []  # List to store today's news
-        today = datetime.now().date()
 
         for all_news in List_of_news:
             # Loop through all news items to filter by today's date
