@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-
-'''from urllib.request import urlopen, Request
+'''
+from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+
 html = Request('https://businessday.ng/category/markets/feed/', headers=headers)
 req = urlopen(html)
 bs = BeautifulSoup(req, 'xml')
@@ -25,26 +26,17 @@ for item in items:
     print(f"Published on: {pub_date}")
 #    print(f"Categories: {[category.text for category in categories]}")
     print(f"Author: {creator}")
-    print("-" * 40) '''
-import requests
-from datetime import datetime
-from dotenv import load_dotenv
-import os
+    print("-" * 40)
 
-load_dotenv()
-api_key = os.getenv('NEWS_API_KEY')
-params = {
-            'api_token' : api_key,
-            'published_on' : datetime.now().strftime('%Y-%m-%d'),
-            'categories' : 'business',
-            'locale' : 'us',
-            'language' : 'en',
-            'page' : 5
-        }
+    html = Request('https://www.globalviewng.com/feed/', headers=headers)
+    req = urlopen(html)
+    bs = BeautifulSoup(req, 'xml')
+    items = bs.select('item')
 
-response = requests.get(f'https://api.thenewsapi.com/v1/news/top', params=params)
-
-response_data = response.json().get('data', {})
+    for item in items:
+        title = item.select_one('title').text
+        link = item.select_one('link').text
+        description = item.select_one('description').text
+  
         
-uuids = [item.get('uuid') for item in response_data]
-print(uuids)
+'''

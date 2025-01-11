@@ -73,6 +73,10 @@ class News_API:
         # Returns Data of the class Instance.
         return self.Data
 
+    def sort_news(self):
+        sorted_news = self.get_data()
+        return sorted(sorted_news, key=lambda x: datetime.strptime(x['Date'], '%Y-%m-%d'))
+            
 class NairaMetrics(News_API):
     '''
     Inherits from the News_API and uses it attributes and instance method.
@@ -224,3 +228,39 @@ class USA_NEWS(News_API):
                           Date=Date)
 
         return self.get_data()
+
+def search_news(keyword, news_list):
+    '''
+    searches for news based on keyword passed.
+    
+    Parameters:
+    Keyword (str): input given by the user.
+    news_list (list): list of news data.
+    
+    Returns:
+    search_list (list): list of news data that contain the keyword.
+    '''
+    search_list = list()
+    for news in news_list:
+        if keyword in news.get('Title').lower():
+            search_list.append(news)
+    
+    return search_list
+
+def group_news(category, news_list):
+    '''
+    searches for news based on keyword passed.
+    
+    Parameters:
+    Keyword (str): input given by the user.
+    news_list (list): list of news data.
+    
+    Returns:
+    search_list (list): list of news data that contain the keyword.
+    '''
+    group_list = list()
+    for news in news_list:
+        if category in news.get('Category').lower():
+            group_list.append(news)
+            
+    return group_list
