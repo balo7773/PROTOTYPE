@@ -1,0 +1,75 @@
+.profile-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 2em;
+    background: rgb(65, 141, 192);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.welcome-message {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: #003366;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+}
+
+.profile-form label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.profile-form input {
+    width: 100%;
+    padding: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.reset-password {
+    display: inline-block;
+    margin-top: 0.5em;
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.reset-password:hover {
+    text-decoration: underline;
+}
+
+.active-subscription {
+    margin-top: 2em;
+    font-size: 1.5em;
+    color: #003366;
+}
+
+.subscriptions {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.subscription-card {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 2em;
+    color: #28a745;
+}
+
+.subscription-card .fa-times-circle {
+    color: #dc3545;
+}

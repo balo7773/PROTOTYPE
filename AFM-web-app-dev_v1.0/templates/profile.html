@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <h1 class="welcome-message">WELCOME {{ user.get_full_name|upper }}</h1>
+
+    <form class="profile-form">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" value="{{ user.get_full_name }}" disabled>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" value="{{ user.email }}" disabled>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" value="{{ user.profile.age }}" disabled>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" value="********" disabled>
+        <a href="{% url 'password_reset' %}" class="reset-password">Reset Password</a>
+    </form>
+
+    <h2 class="active-subscription">Active Subscription</h2>
+    <div class="subscriptions">
+        <div class="subscription-card"><i class="fa fa-check-circle"></i></div>
+        <div class="subscription-card"><i class="fa fa-check-circle"></i></div>
+        <div class="subscription-card"><i class="fa fa-check-circle"></i></div>
+        <div class="subscription-card"><i class="fa fa-times-circle"></i></div>
+    </div>
+</div>
+{% endblock %}
