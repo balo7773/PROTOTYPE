@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/news.css' %}">
+    <link rel="stylesheet" href="{% static 'css/market.css' %}">
 </head>
 <body>
 
@@ -26,7 +27,16 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'news_list' %}">News</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Financial Markets</a></li>
+                    <!-- Financial Markets with Dropdown -->
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="financialMarketsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Financial Markets
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="financialMarketsDropdown">
+                          <li><a class="dropdown-item" href="{% url 'financial_market' 'stock' %}">Stock Market</a></li>
+                          <li><a class="dropdown-item" href="{% url 'financial_market' 'crypto' %}">Cryptocurrency</a></li>
+                      </ul>
+                  </li>
                     <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">More</a></li>
                 </ul>
@@ -113,7 +123,9 @@
             <!-- Page-specific content will be injected here -->
     {% block content %} {% endblock %}
 
-    {% block javascript %} {% endblock %}
+    {% block javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
 </body>
 <footer class="footer">
     <div class="container">
