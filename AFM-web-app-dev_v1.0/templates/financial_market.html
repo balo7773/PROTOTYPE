@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AstraFidelis LLC - Financial Market{% endblock %}
+
+{% block content %}
+
+    <!-- Financial Market Section -->
+    <div class="market-section">
+            <form id="market-form">
+                <label for="country">Select Market:</label>
+                <select id="country" name="country">
+                    <option value="nigeria" selected>USA</option>
+                    <option value="usa">Nigeria</option>
+                </select>
+            </form>
+            
+        <!-- TradingView Widget -->
+        <div class="custom-tradingview-widget-container">
+            <div class="custom-tradingview-widget-container__widget" id="tradingview-widget"></div>
+            {% if widget_data %}
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+            {
+                "width": "{{ widget_data.width }}",
+                "height": "{{ widget_data.height }}",
+                "defaultColumn": "{{ widget_data.defaultColumn }}",
+                {% if widget_data.screener_type %}
+                "screener_type": "{{ widget_data.screener_type }}",
+                "displayCurrency": "{{ widget_data.displayCurrency }}",
+                {% else %}
+                "defaultScreen": "{{ widget_data.defaultScreen }}",
+                "market": "{{ widget_data.market }}",
+                "showToolbar": {{ widget_data.showToolbar|yesno:"true,false" }},
+                {% endif %}
+                "colorTheme": "{{ widget_data.colorTheme }}",
+                "isTransparent": {{ widget_data.isTransparent|yesno:"true,false" }},
+                "largeChartUrl": "http://localhost:8000/",
+                "locale": "{{ widget_data.locale }}"
+            }
+            </script>
+            {% else %}
+                <p>Invalid market type selected.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

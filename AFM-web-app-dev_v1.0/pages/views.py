@@ -1,19 +1,10 @@
 # pages/views.py
 
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from .dynamic_api import NairaMetrics, ThisDailyLive, BusinessDay, USA_NEWS
 from datetime import datetime, date
 from dateutil import parser
-
-"""
-from django.http import HttpResponse
-def home_page_view(request):
-return HttpResponse("Hello, World!")
-def home_page_view(request):
-    return render(request, "home.html")
-
-"""
 
 class HomePageView(ListView):
     '''
@@ -112,14 +103,39 @@ class NewsListView(ListView):
 
         return NEWS
 
-"""from django.core.paginator import Paginator
-from django.shortcuts import render
-from .models import News  # Replace with your model
+class FinancialMarketView(TemplateView):
+    template_name = 'financial_market.html'
 
-def news_list(request):
-    news = News.objects.all()
-    paginator = Paginator(news, 12)  # 12 items per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    return render(request, 'news.html', {'page_obj': page_obj})
-"""
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        market = kwargs.get('market_type')  # Ensure `market_type` is correctly accessed
+
+        # Set widget configuration based on the market type
+        if market == 'stock':
+            context['widget_data'] = {
+                "width": "100%",
+                "height": 550,
+                "defaultColumn": "overview",
+                "defaultScreen": "most_capitalized",
+                "market": "america",  # Required for stocks
+                "colorTheme": "light",  # Matches your desired widget
+                "showToolbar": True,
+                "isTransparent": True,
+                "locale": "en",
+            }
+        elif market == 'crypto':
+            context['widget_data'] = {
+                "width": "100%",
+                "height": 550,
+                "defaultColumn": "overview",
+                "screener_type": "crypto_mkt",  # Required for crypto
+                "displayCurrency": "USD",  # Specific to crypto
+                "colorTheme": "light",
+                "isTransparent": True,
+                "locale": "en",
+            }
+        else:
+            # Handle invalid market types
+            context['widget_data'] = None
+
+        return context

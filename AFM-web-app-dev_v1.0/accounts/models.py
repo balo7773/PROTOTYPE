@@ -31,7 +31,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     # Remove the username field
-    username = None
+    username = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=70, default="Default Name")
     age = models.PositiveIntegerField(null=True, blank=True)
