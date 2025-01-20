@@ -126,6 +126,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+LOGIN_URL = '/login/'  # Redirect to this URL if the user is not logged in
+LOGIN_REDIRECT_URL = '/profile/'  # Redirect here after login
+
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home" 
 
