@@ -1,29 +1,92 @@
+{% extends 'layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - AstraFidelis</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/login-styles.css' %}">
-</head>
-<body>
-    <div class="login-container">
-        <div class="login-content">
-            <div class="form-section">
-                <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="company-logo">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="submit-btn">Login</button>
-                </form>
-            </div>
-            <div class="info-section">
-                <h1 class="info-title">EMPOWERMENT THROUGH FINANCIAL LITERACY.</h1>
-                <h2 class="info-subtitle">LEARN, INVEST AND BUILD WEALTH</h2>
-            </div>
-        </div>
+
+{% block content %}
+<style>
+    body {
+        background-image: url('{% static "images/background.jpg" %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif;
+    }
+    
+    .main-container {
+        width: 80%;
+        display: flex;
+        gap: 3em;
+        align-items: flex-start;
+        justify-content: center;
+        margin: 4em auto;
+    }
+    
+    .form-container {
+        width: 50%;
+        padding: 2em;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .text-block {
+        width: 40%;
+        color: white;
+        text-align: left;
+    }
+    
+    .company-logo {
+        display: block;
+        margin: 0 auto 1em auto;
+        max-width: 120px;
+    }
+    
+    .submit-btn {
+        width: 100%;
+        padding: 0.8em;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.1em;
+    }
+    
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+    
+    .empowerment-title {
+        font-size: 2.2em;
+        margin-bottom: 0.5em;
+    }
+    
+    .empowerment-subtitle {
+        font-size: 1.5em;
+    }
+
+</style>
+<div class="main-container">
+    <div class="form-container">
+        <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="company-logo">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn submit-btn">Login</button>
+        </form>
     </div>
-</body>
-</html>
+        <!-- Text Block -->
+        <div class="text-block">
+            <h2>
+                EMPOWERMENT<br>
+                THROUGH<br>
+                FINANCIAL<br>
+                LITERACY
+            </h2>
+            <h2>
+                LEARN, INVEST<br>
+                AND<br>
+                BUILD WEALTH
+            </h2>
+        </div>
+</div>
+{% endblock %}
