@@ -1,10 +1,13 @@
 # pages/views.py
 
+from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .dynamic_api import NairaMetrics, ThisDailyLive, BusinessDay, USA_NEWS
 from datetime import datetime, date
 from dateutil import parser
+
 
 class HomePageView(ListView):
     '''
@@ -139,3 +142,8 @@ class FinancialMarketView(TemplateView):
             context['widget_data'] = None
 
         return context
+
+
+class ProfilePageView(LoginRequiredMixin, TemplateView):
+    template_name = "profile.html"
+    login_url = reverse_lazy("login")  # Redirect if not logged in
