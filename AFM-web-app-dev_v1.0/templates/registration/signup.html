@@ -1,147 +1,145 @@
+{% extends 'layout.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - AstraFidelis</title>
-    <style>
-        :root {
-            --primary-blue: #1e2b7b;
-            --light-blue: #00bcd4;
-        }
 
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background-image: linear-gradient(45deg, rgba(30, 43, 123, 0.95), rgba(0, 188, 212, 0.95)),
-                            url('{% static "images/hero_image2.png" %}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: Arial, sans-serif;
-        }
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to bottom, #0c4da2, #82b4e3, #ffffff), 
+                    url("{% static 'images/hero_image2.png' %}") no-repeat center center/cover;
+        background-blend-mode: overlay;
+    }
+    .main-container {
+        width: 80%; /* Adjust to make the parent container wider */
+        display: flex;
+        gap: 7em; /* Space between form and text block */
+        align-items: flex-start;
+        justify-content: center; /* Keeps both blocks aligned in the center */
+        margin-top: 7em;
+        margin-left: auto; /* Centers the container horizontally */
+        margin-right: auto; /* Centers the container horizontally */
+        background: rgba(255, 255, 255, 0.9); /* Add a semi-transparent white background */
+        padding: 2em;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-        .signup-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    .signup-title {
+        position: absolute;
+        top: 2%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 4em;
+        font-weight: bold;
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        color: black;
+        text-shadow: 3px 3px 8px #323232b3;
+        z-index: 2;
+        margin-top: 2em;
+    }
+    
+    .text-block {
+        width: 35%; /* Match the form container's width */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        align-items: center;
+        gap: 4em;
+    }
+    
+    .text-block h2 {
+        font-size: 2.3em;
+        font-family: 'Impact', 'Arial Black', sans-serif;
+        color: black;
+        text-shadow: 2px 2px 5px #323232b3;
+        line-height: 1.5;
+        text-align: left;
+    }
 
-        .signup-content {
-            display: flex;
-            width: 100%;
-            max-width: 900px;
-            margin: auto;
-        }
+    .form-container {
+        width: 35%; /* Increase width */
+        display: flex;
+        flex-direction: column;
+        padding: 2em;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        max-width: 800px; /* Optional: Limit the maximum width for larger screens */
+    }
 
-        .form-section {
-            flex: 0 0 50%; /* Reduced the width */
-            background: white;
-            padding: 1.5rem; /* Adjusted padding to reduce overall size */
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 350px; /* Explicitly set the maximum width */
-        }
+    .form-container .signup-form {
+        width: 100%;
+    }
+    .signup-form img.logo {
+        width: 100px;
+        margin: 0 auto 1em;
+        display: block;
+    }
+    .input-group {
+        margin-bottom: 1.2em;
+        display: flex;
+        align-items: center;
+        gap: 1em;
+    }
+    .input-group .input-icon {
+        width: 24px;
+        height: 24px;
+    }
+    .terms-check {
+        margin-top: 1em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+    }
+    .terms-check label {
+        font-size: 0.9em;
+    }
+    button[type="submit"] {
+        margin-top: 1.5em;
+        width: 100%;
+        padding: 0.8em;
+        background: #0c4da2;
+        color: white;
+        font-size: 1em;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
 
-        .info-section {
-            flex: 0 0 55%;
-            padding: 2rem 3rem;
-            color: rgb(17, 3, 3);
-        }
-
-        .company-logo {
-            width: 100px;
-            margin-bottom: 2rem;
-        }
-
-        .form-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 0.75rem; /* Reduced spacing between fields */
-            width: 85%;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-        }
-
-
-        .form-control {
-            width: 100%; /* Ensures input fields don't exceed the container's width */
-            max-width: 100%; /* Prevents overflowing beyond the parent */
-            height: 40px; /* Slightly reduced height */
-            padding: 0.5rem 1rem 0.5rem 40px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .terms-check {
-            margin: 1rem 0;
-        }
-
-        .submit-btn {
-            width: 100%;
-            height: 45px;
-            background: #000;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-weight: 600;
-            margin-top: 1rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            height: 40px; /* Match input field height */
-            font-size: 1rem; /* Adjust text size */
-
-        }
-
-        .info-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 2rem;
-        }
-
-        .info-subtitle {
-            font-size: 1.8rem;
-            margin-top: 4rem;
-            font-weight: 600;
-        }
-
-        /* Error messages */
-        .errorlist {
-            color: #dc3545;
-            list-style: none;
-            padding: 0;
-            margin: 0 0 0.5rem 0;
-            font-size: 0.875rem;
-        }
-    </style>
-</head>
 <body>
-    <div class="signup-container">
-        <div class="signup-content">
-            <div class="form-section">
-                <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="company-logo">
-                <form method="POST" class="signup-form">
+    <h1 class="signup-title">SIGN UP</h1>
+    <div class="main-container">
+        <!-- Text Block -->
+        <div class="text-block">
+            <h2>
+                EMPOWERMENT<br>
+                THROUGH<br>
+                FINANCIAL<br>
+                LITERACY
+            </h2>
+            <h2>
+                LEARN, INVEST<br>
+                AND<br>
+                BUILD WEALTH
+            </h2>
+        </div>
+        
+        <!-- Form Block -->
+        <div class="form-container">
+            <div class="signup-form">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+                <form method="POST">
                     {% csrf_token %}
-                    
+
                     <div class="input-group">
                         <img class="input-icon" src="{% static 'icons/profile-user.svg' %}" alt="">
                         {{ form.full_name }}
@@ -186,15 +184,11 @@
                         <input type="checkbox" id="terms" required>
                         <label for="terms">Terms and Conditions</label>
                     </div>
-
-                    <button type="submit" class="submit-btn">Submit</button>
+                
+                    <button type="submit">SUBMIT</button>
                 </form>
-            </div>
-            <div class="info-section">
-                <h1 class="info-title">EMPOWERMENT THROUGH FINANCIAL LITERACY.</h1>
-                <h1 class="info-title">LEARN, INVEST AND BUILD WEALTH</h1>
             </div>
         </div>
     </div>
 </body>
-</html>
+{% endblock content %}
