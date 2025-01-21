@@ -48,6 +48,7 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     full_name = forms.CharField(max_length=70, label="Full Name")
     age = forms.IntegerField(label="Age", min_value=0)
+    profile_picture = forms.ImageField(required=False, label="Profile Picture")
 
     class Meta:
         model = get_user_model()
@@ -55,6 +56,7 @@ class CustomUserChangeForm(UserChangeForm):
             "full_name",
             "email",
             "age",
+            "profile_picture",
         )
 
 

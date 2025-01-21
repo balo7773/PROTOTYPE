@@ -143,7 +143,3 @@ class FinancialMarketView(TemplateView):
 
         return context
 
-
-class ProfilePageView(LoginRequiredMixin, TemplateView):
-    template_name = "profile.html"
-    login_url = reverse_lazy("login")  # Redirect if not logged in

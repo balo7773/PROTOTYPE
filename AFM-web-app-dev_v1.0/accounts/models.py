@@ -31,12 +31,20 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     # Remove the username field
-    username = models.CharField(max_length=150, blank=True)
+    # username = models.CharField(max_length=150, blank=True)
+    username = None
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=70, default="Default Name")
     age = models.PositiveIntegerField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
 
     USERNAME_FIELD = "email"  # Set email as the unique identifier
     REQUIRED_FIELDS = ["full_name", "age"]  # Fields required when creating a user
 
     objects = CustomUserManager()  # Link the custom manager
+    def save(self, *args, **kwargs):
+    # If profile picture exists, clean the filename by replacing spaces with underscores
+        if self.profile_picture:
+            # Sanitize the file name to avoid spaces
+            self.profile_picture.name = self.profile_picture.name.replace(' ', '_')
+        super().save(*args, **kwargs)

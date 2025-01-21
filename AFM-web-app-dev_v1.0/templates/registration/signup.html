@@ -1,38 +1,26 @@
 {% extends 'layout.html' %}
 {% load static %}
 
+<title>{% block title %}Signup --AstraFidelis LLC{% endblock %}</title>
 {% block content %}
 <style>
     body {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
         background: linear-gradient(to bottom, #0c4da2, #82b4e3, #ffffff), 
                     url("{% static 'images/hero_image2.png' %}") no-repeat center center/cover;
         background-blend-mode: overlay;
+        position: relative;
     }
-    .main-container {
-        width: 80%; /* Adjust to make the parent container wider */
-        display: flex;
-        gap: 7em; /* Space between form and text block */
-        align-items: flex-start;
-        justify-content: center; /* Keeps both blocks aligned in the center */
-        margin-top: 7em;
-        margin-left: auto; /* Centers the container horizontally */
-        margin-right: auto; /* Centers the container horizontally */
-        background: rgba(255, 255, 255, 0.9); /* Add a semi-transparent white background */
-        padding: 2em;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
+    
     .signup-title {
         position: absolute;
-        top: 2%;
+        top: 0;  /* Moved up */
         left: 50%;
         transform: translateX(-50%);
         font-size: 4em;
@@ -41,16 +29,31 @@
         color: black;
         text-shadow: 3px 3px 8px #323232b3;
         z-index: 2;
-        margin-top: 2em;
+        margin-top: 1em;  /* Reduced margin */
+    }
+    
+    .main-container {
+        width: 90%;  /* Increased width */
+        max-width: 1400px;  /* Increased max-width */
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 7em;
+        align-items: flex-start;
+        justify-content: center;
+        margin-top: 10em;
+        padding: 2em;
+        z-index: 1;
+        position: relative;
+        /* Removed background, border-radius, and box-shadow */
     }
     
     .text-block {
-        width: 35%; /* Match the form container's width */
+        width: 35%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
-        align-items: center;
+        align-items: flex-start;
         gap: 4em;
     }
     
@@ -61,46 +64,75 @@
         text-shadow: 2px 2px 5px #323232b3;
         line-height: 1.5;
         text-align: left;
+        margin: 0;
     }
-
+    
     .form-container {
-        width: 35%; /* Increase width */
+        width: 45%;  /* Increased width */
         display: flex;
         flex-direction: column;
         padding: 2em;
         background: white;
         border-radius: 10px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        max-width: 800px; /* Optional: Limit the maximum width for larger screens */
+        max-width: 900px;  /* Increased max-width */
     }
-
-    .form-container .signup-form {
+    
+    .signup-form {
         width: 100%;
     }
+    
     .signup-form img.logo {
         width: 100px;
         margin: 0 auto 1em;
         display: block;
     }
+    
     .input-group {
         margin-bottom: 1.2em;
         display: flex;
         align-items: center;
         gap: 1em;
     }
+    
     .input-group .input-icon {
         width: 24px;
         height: 24px;
     }
+    
+    .input-group input {
+        flex: 1;
+        padding: 0.8em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+    
     .terms-check {
         margin-top: 1em;
+        width: 100%;
         display: flex;
+        justify-content: center;
         align-items: center;
         gap: 0.5em;
+        padding: 0.5em 0;
     }
+    
+    .terms-check input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        cursor: pointer;
+    }
+    
     .terms-check label {
-        font-size: 0.9em;
+        font-size: 1em;
+        color: #333;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
     }
+    
     button[type="submit"] {
         margin-top: 1.5em;
         width: 100%;
@@ -113,82 +145,86 @@
         border-radius: 5px;
         cursor: pointer;
     }
+    
+    .errorlist {
+        color: red;
+        font-size: 0.8em;
+        margin-top: 0.3em;
+    }
 </style>
 
-<body>
-    <h1 class="signup-title">SIGN UP</h1>
-    <div class="main-container">
-        <!-- Text Block -->
-        <div class="text-block">
-            <h2>
-                EMPOWERMENT<br>
-                THROUGH<br>
-                FINANCIAL<br>
-                LITERACY
-            </h2>
-            <h2>
-                LEARN, INVEST<br>
-                AND<br>
-                BUILD WEALTH
-            </h2>
-        </div>
-        
-        <!-- Form Block -->
-        <div class="form-container">
-            <div class="signup-form">
-                <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
-                <form method="POST">
-                    {% csrf_token %}
+<h1 class="signup-title">SIGN UP</h1>
+<div class="main-container">
+    <!-- Text Block -->
+    <div class="text-block">
+        <h2>
+            EMPOWERMENT<br>
+            THROUGH<br>
+            FINANCIAL<br>
+            LITERACY
+        </h2>
+        <h2>
+            LEARN, INVEST<br>
+            AND<br>
+            BUILD WEALTH
+        </h2>
+    </div>
+    
+    <!-- Form Block -->
+    <div class="form-container">
+        <div class="signup-form">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+            <form method="POST">
+                {% csrf_token %}
 
-                    <div class="input-group">
-                        <img class="input-icon" src="{% static 'icons/profile-user.svg' %}" alt="">
-                        {{ form.full_name }}
-                        {% if form.full_name.errors %}
-                            <div class="errorlist">{{ form.full_name.errors }}</div>
-                        {% endif %}
-                    </div>
+                <div class="input-group">
+                    <img class="input-icon" src="{% static 'icons/profile-user.svg' %}" alt="">
+                    {{ form.full_name }}
+                    {% if form.full_name.errors %}
+                        <div class="errorlist">{{ form.full_name.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="input-group">
-                        <img class="input-icon" src="{% static 'icons/envelope.png' %}" alt="">
-                        {{ form.email }}
-                        {% if form.email.errors %}
-                            <div class="errorlist">{{ form.email.errors }}</div>
-                        {% endif %}
-                    </div>
+                <div class="input-group">
+                    <img class="input-icon" src="{% static 'icons/envelope.png' %}" alt="">
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="errorlist">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="input-group">
-                        <img class="input-icon" src="{% static 'icons/calendar.png' %}" alt="">
-                        {{ form.age }}
-                        {% if form.age.errors %}
-                            <div class="errorlist">{{ form.age.errors }}</div>
-                        {% endif %}
-                    </div>
+                <div class="input-group">
+                    <img class="input-icon" src="{% static 'icons/calendar.png' %}" alt="">
+                    {{ form.age }}
+                    {% if form.age.errors %}
+                        <div class="errorlist">{{ form.age.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="input-group">
-                        <img class="input-icon" src="{% static 'icons/key.svg' %}" alt="">
-                        {{ form.password1 }}
-                        {% if form.password1.errors %}
-                            <div class="errorlist">{{ form.password1.errors }}</div>
-                        {% endif %}
-                    </div>
+                <div class="input-group">
+                    <img class="input-icon" src="{% static 'icons/key.svg' %}" alt="">
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="errorlist">{{ form.password1.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="input-group">
-                        <img class="input-icon" src="{% static 'icons/key.svg' %}" alt="">
-                        {{ form.password2 }}
-                        {% if form.password2.errors %}
-                            <div class="errorlist">{{ form.password2.errors }}</div>
-                        {% endif %}
-                    </div>
+                <div class="input-group">
+                    <img class="input-icon" src="{% static 'icons/key.svg' %}" alt="">
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="errorlist">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="terms-check">
-                        <input type="checkbox" id="terms" required>
-                        <label for="terms">Terms and Conditions</label>
-                    </div>
-                
-                    <button type="submit">SUBMIT</button>
-                </form>
-            </div>
+                <div class="terms-check">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Terms and Conditions</label>
+                </div>
+            
+                <button type="submit">SUBMIT</button>
+            </form>
         </div>
     </div>
-</body>
+</div>
 {% endblock content %}

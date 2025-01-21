@@ -1,19 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Profile - AstraFidelis LLC{% endblock %}
 {% block content %}
+<style>
+    profile-picture-container {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    /* Profile Picture */
+    .profile-picture {
+        width: 30%;  /* Make the image fill the container */
+        height: 30%; /* Make the image fill the container */
+        object-fit: cover;   /* Ensure image covers the circle without distortion */
+        border: 3px solid #0c4da2;  /* Your theme color */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+    }
+</style>
 <div class="profile-container">
-    <h1 class="welcome-message">WELCOME {{ user.get_full_name|upper }}</h1>
+    <div class="profile-picture-container">
+        <!-- If user has a profile picture, show it, otherwise show default -->
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+        {% else %}
+            <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" class="profile-picture">
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" id="profile-picture-form">
+            {% csrf_token %}
+            
+            <!-- Hidden file input, this is triggered by the button -->
+            <input type="file" name="profile_picture" accept="image/*" class="form-control" id="profile-picture-input" style="display: none;">
+            
+            <!-- Update button that triggers the file input -->
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('profile-picture-input').click();">Update Profile Picture</button>
+            
+            <!-- Submit button to save the uploaded picture -->
+            <button type="submit" class="btn btn-primary" id="submit-btn" style="display: none;">Save Picture</button>
+          </form>
+        
+    </div>
+    <h1 class="welcome-message">WELCOME {{ user.full_name|upper }}</h1>
 
     <form class="profile-form">
         <label for="full_name">Full Name</label>
-        <input type="text" id="full_name" value="{{ user.get_full_name }}" disabled>
+        <input type="text" id="full_name" value="{{ user.full_name }}" disabled>
 
         <label for="email">Email</label>
         <input type="email" id="email" value="{{ user.email }}" disabled>
 
         <label for="age">Age</label>
-        <input type="number" id="age" value="{{ user.profile.age }}" disabled>
+        <input type="number" id="age" value="{{ user.age }}" disabled>
 
         <label for="password">Password</label>
         <input type="password" id="password" value="********" disabled>
@@ -28,4 +71,12 @@
         <div class="subscription-card"><i class="fa fa-times-circle"></i></div>
     </div>
 </div>
+<script>
+    // Show submit button when file is selected
+    document.getElementById('profile-picture-input').addEventListener('change', function() {
+      if (this.files.length > 0) {
+        document.getElementById('submit-btn').style.display = 'inline-block';  // Show the submit button
+      }
+    });
+  </script>
 {% endblock %}

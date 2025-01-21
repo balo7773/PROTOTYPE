@@ -4,43 +4,67 @@
 {% block content %}
 <style>
     body {
-        background-image: url('{% static "images/background.jpg" %}');
+        background-image: url('{% static "images/background.png" %}');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
         font-family: 'Arial', sans-serif;
-    }
-    
-    .main-container {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        position: relative;
+      }
+      
+      /* Main container */
+      .main-container {
         width: 80%;
+        max-width: 1200px;
         display: flex;
         gap: 3em;
-        align-items: flex-start;
+        align-items: center;  /* Changed from flex-start to center */
         justify-content: center;
         margin: 4em auto;
-    }
-    
-    .form-container {
+        position: relative;   /* Added position relative */
+        z-index: 2;          /* Added z-index */
+        min-height: calc(100vh - 8em); /* Accounts for margin */
+      }
+      
+      /* Form container */
+      .form-container {
         width: 50%;
+        max-width: 500px;    /* Added max-width */
         padding: 2em;
         background: white;
         border-radius: 10px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    
-    .text-block {
+        position: relative;   /* Added position relative */
+        z-index: 3;          /* Added z-index */
+      }
+      
+      /* Text block styling */
+      .text-block {
         width: 40%;
         color: white;
         text-align: left;
-    }
-    
-    .company-logo {
+        position: relative;   /* Added position relative */
+        z-index: 3;          /* Added z-index */
+      }
+      
+      /* Logo styling */
+      .company-logo {
         display: block;
         margin: 0 auto 1em auto;
         max-width: 120px;
-    }
-    
-    .submit-btn {
+      }
+      
+      /* Form elements styling */
+      form {
+        position: relative;   /* Added position relative */
+        z-index: 4;          /* Added z-index */
+      }
+      
+      /* Button styling */
+      .submit-btn {
         width: 100%;
         padding: 0.8em;
         background-color: #007BFF;
@@ -49,21 +73,31 @@
         border-radius: 5px;
         cursor: pointer;
         font-size: 1.1em;
-    }
-    
-    .submit-btn:hover {
+        margin-top: 1em;     /* Added margin-top */
+      }
+      
+      .submit-btn:hover {
         background-color: #0056b3;
-    }
-    
-    .empowerment-title {
-        font-size: 2.2em;
+      }
+      
+      /* Form field styling */
+      form p {
+        margin-bottom: 1em;
+      }
+      
+      form label {
+        display: block;
         margin-bottom: 0.5em;
-    }
-    
-    .empowerment-subtitle {
-        font-size: 1.5em;
-    }
-
+        font-weight: bold;
+      }
+      
+      form input {
+        width: 100%;
+        padding: 0.8em;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
 </style>
 <div class="main-container">
     <div class="form-container">
@@ -73,20 +107,5 @@
             {{ form.as_p }}
             <button type="submit" class="btn submit-btn">Login</button>
         </form>
-    </div>
-        <!-- Text Block -->
-        <div class="text-block">
-            <h2>
-                EMPOWERMENT<br>
-                THROUGH<br>
-                FINANCIAL<br>
-                LITERACY
-            </h2>
-            <h2>
-                LEARN, INVEST<br>
-                AND<br>
-                BUILD WEALTH
-            </h2>
-        </div>
 </div>
 {% endblock %}
