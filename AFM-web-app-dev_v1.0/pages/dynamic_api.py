@@ -242,7 +242,7 @@ def search_news(keyword, news_list):
     '''
     search_list = list()
     for news in news_list:
-        if keyword in news.get('Title').lower():
+        if keyword.strip().lower() in news.get('Title', '').strip().lower():
             search_list.append(news)
     
     return search_list

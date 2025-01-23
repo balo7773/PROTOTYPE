@@ -1,22 +1,55 @@
 /* Profile Picture Container */
 .profile-picture-container {
     width: 150px;
-    height: 150px;
-    margin-bottom: 2rem;
-    display: flex;             /* Enable Flexbox */
-    justify-content: center;   /* Center horizontally */
-    align-items: center;       /* Center vertically */
-    border-radius: 50%;        /* Circular border for the container */
-    overflow: hidden;          /* Ensure the image stays inside the circle */
+    margin: 0 auto 2rem; /* Center the container horizontally and add bottom margin */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;
+    gap: 1rem; /* Add space between elements */
 }
 
 /* Profile Picture */
 .profile-picture {
-    width: 100%;  /* Make the image fill the container */
-    height: 100%; /* Make the image fill the container */
-    object-fit: cover;   /* Ensure image covers the circle without distortion */
-    border: 3px solid #0c4da2;  /* Your theme color */
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #0c4da2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+}
+
+/* Form styling */
+#profile-picture-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Button styling */
+#profile-picture-form button {
+    width: auto;
+    min-width: 150px;
+    padding: 0.5rem 1rem;
+    background-color: #666;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#profile-picture-form button:hover {
+    background-color: #555;
+}
+
+#submit-btn {
+    background-color: #0c4da2 !important;
+}
+
+#submit-btn:hover {
+    background-color: #0a3d82 !important;
 }
 
 /* Profile Container (Outer container around profile details) */

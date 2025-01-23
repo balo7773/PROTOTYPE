@@ -4,10 +4,13 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .dynamic_api import NairaMetrics, ThisDailyLive, BusinessDay, USA_NEWS
+from .dynamic_api import NairaMetrics, ThisDailyLive, BusinessDay, USA_NEWS, search_news
 from datetime import datetime, date
 from dateutil import parser
-
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.http import QueryDict
+from urllib.parse import unquote
 
 class HomePageView(ListView):
     '''
@@ -143,3 +146,131 @@ class FinancialMarketView(TemplateView):
 
         return context
 
+
+class AboutPageView(TemplateView):
+    """
+    A simple view to render the 'About' page of the application.
+    Attributes:
+        template_name (str): The name of the HTML template to render.
+    """
+    template_name = "about.html"
+
+class SearchRedirectView(TemplateView):
+    """
+    Handles search form submissions and redirects users to the appropriate page
+    based on the filter option (e.g., news, stock markets) and search term.
+    
+    Methods:
+        post(request, *args, **kwargs): Processes the POST request and redirects 
+        to the appropriate page or returns a rendered template with an error message.
+    """
+    def post(self, request, *args, **kwargs):
+        """
+        Processes POST requests for the search functionality.
+        
+        Redirects users based on the filter option and search term:
+        - 'news': Redirects to the news list page with a search query.
+        - 'usa-stock-market' or 'nigeria-stock-market': Redirects to the stock profile page with exchange and symbol.
+        - Returns an error message if required parameters are missing or invalid.
+        
+        Args:
+            request (HttpRequest): The HTTP request object containing POST data.
+            *args: Additional positional arguments.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            HttpResponse: A redirect response or a rendered error template.
+        """
+
+        filter_option = request.POST.get("filter")
+        search_term = request.POST.get("search_term")
+
+        if not filter_option or not search_term:
+            return self.render_to_response({"error": "Filter and search term are required."})
+
+        if filter_option == "news":
+            return redirect(f"{reverse('news_list')}?q={search_term}")
+
+        if filter_option in ["usa-stock-market", "nigeria-stock-market"]:
+            exchange = request.POST.get("exchange")
+            symbol = search_term.strip().upper()  # Strip whitespace, ensure uppercase
+            
+            # Format exchange codes properly
+            exchange_mapping = {
+                'NSENG': 'NSENG',
+                'NYSE': 'NYSE',   # Keep NYSE as is
+                'NASDAQ': 'NASDAQ' # Keep NASDAQ as is
+            }
+            
+            # Get the correct exchange code
+            exchange = exchange_mapping.get(exchange, exchange)
+
+            if exchange and symbol:
+                url = reverse("stock_profile")
+                query_params = QueryDict('', mutable=True)
+                query_params['exchange'] = exchange
+                query_params['symbol'] = symbol
+                print(f"DEBUG - Redirecting with: 'exchange': {exchange}, 'symbol': {symbol}")
+                return redirect(f"{url}?{query_params.urlencode()}")
+            else:
+                return self.render_to_response({"error": "Exchange and symbol are required."})
+
+        return self.render_to_response({"error": "Invalid filter option."})
+
+
+class StockProfileView(TemplateView):
+    """
+    Displays detailed information about a specific stock profile based on the 
+    provided exchange and symbol, or using a tvwidgetsymbol parameter.
+    
+     Attributes:
+        template_name (str): The name of the HTML template to render.
+
+        Methods:
+        get(request, *args, **kwargs): Handles GET requests and renders the stock profile page.
+    """
+    template_name = 'stock_profile.html'
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests to retrieve stock profile information.
+
+        - Extracts the exchange and symbol from the 'tvwidgetsymbol' parameter if present.
+        - Alternatively, retrieves and processes 'exchange' and 'symbol' parameters from the query string.
+        - Renders the 'stock_profile.html' template with the extracted data.
+        
+       
+        """
+        exchange = None
+        symbol = None
+
+        # Handle tvwidgetsymbol
+        tvwidgetsymbol = request.GET.get('tvwidgetsymbol')
+        if tvwidgetsymbol:
+            try:
+                tvwidgetsymbol = unquote(tvwidgetsymbol)
+                exchange, symbol = tvwidgetsymbol.split(":")
+            except ValueError:
+                exchange = 'Unknown Exchange'
+                symbol = 'Unknown Symbol'
+        else:
+            # Handle manual search
+            exchange = request.GET.get('exchange')
+            symbol = request.GET.get('symbol')
+            
+            # Clean the exchange and symbol
+            if exchange:
+                exchange = exchange.strip().upper()
+                # Map NSENG to NGSE if needed
+                if exchange == 'NSENG':
+                    exchange = 'NSENG'
+            if symbol:
+                symbol = symbol.strip().upper()
+
+        context = {
+            'exchange': exchange,
+            'symbol': symbol,
+        }
+
+        print(f"DEBUG - Final context: 'exchange': {exchange}, 'symbol': {symbol}")
+        return render(request, self.template_name, context)

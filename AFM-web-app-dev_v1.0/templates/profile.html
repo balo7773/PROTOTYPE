@@ -4,33 +4,72 @@
 {% block title %}Profile - AstraFidelis LLC{% endblock %}
 {% block content %}
 <style>
-    profile-picture-container {
-        width: 150px;
-        height: 150px;
-        margin-bottom: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
+    /* Profile Picture Container */
+    /* Profile Picture Container */
+    .profile-picture-container {
+    width: 200px;
+    height: auto;  /* Changed from fixed height to auto */
+    margin: 2rem auto 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    overflow: visible;  /* Changed from hidden to visible */
     }
-    
+
     /* Profile Picture */
     .profile-picture {
-        width: 30%;  /* Make the image fill the container */
-        height: 30%; /* Make the image fill the container */
-        object-fit: cover;   /* Ensure image covers the circle without distortion */
-        border: 3px solid #0c4da2;  /* Your theme color */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 3px solid #0c4da2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    display: block;  /* Added to ensure proper rendering */
+    }
+    
+    /* Form styling */
+    #profile-picture-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Button styling */
+    #profile-picture-form button {
+        width: auto;
+        min-width: 120px;  /* Reduced from 150px */
+        padding: 0.4rem 0.8rem;  /* Reduced padding */
+        font-size: 0.9rem;  /* Reduced font size */
+        background-color: #666;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    #profile-picture-form button:hover {
+        background-color: #555;
+    }
+    
+    #submit-btn {
+        background-color: #0c4da2 !important;
+    }
+    
+    #submit-btn:hover {
+        background-color: #0a3d82 !important;
     }
 </style>
 <div class="profile-container">
     <div class="profile-picture-container">
         <!-- If user has a profile picture, show it, otherwise show default -->
         {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+        <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
         {% else %}
-            <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" class="profile-picture">
+        <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" class="profile-picture">
         {% endif %}
         <form method="post" enctype="multipart/form-data" id="profile-picture-form">
             {% csrf_token %}

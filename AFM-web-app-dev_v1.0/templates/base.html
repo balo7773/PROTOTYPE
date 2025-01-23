@@ -39,86 +39,91 @@
                       </ul>
                   </li>
                     <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">More</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
                 </ul>
                 <div class="auth-buttons">
                   {% if user.is_authenticated %}
-                      <a href="{% url 'profile' %}" class="btn btn-profile">Profile</a>
-                      <a href="{% url 'logout' %}" class="btn btn-logout">Logout</a>
-                  {% else %}
-                      <a href="{% url 'login' %}" class="btn btn-login">Login</a>
-                      <a href="{% url 'signup' %}" class="btn btn-signup">Signup</a>
-                  {% endif %}
+                  <a href="{% url 'profile' %}" class="btn btn-profile">Profile</a>
+                  <form method="post" action="{% url 'logout' %}" >
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-logout">Log out</button>
+                  </form>
+              {% else %}
+                  <a href="{% url 'login' %}" class="btn btn-login">Login</a>
+                  <a href="{% url 'signup' %}" class="btn btn-signup">Signup</a>
+              {% endif %}
               </div>
             </div>
         </div>
     </nav>
     <!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-    <div class="tradingview-widget-container__widget"></div>
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-    {
-    "symbols": [
-      {
-        "proName": "FOREXCOM:SPXUSD",
-        "title": "S&P 500 Index"
-      },
-      {
-        "description": "First Bank",
-        "proName": "NSENG:FBNH"
-      },
-      {
-        "description": "UBA",
-        "proName": "NSENG:UBA"
-      },
-      {
-        "description": "GTCO",
-        "proName": "NSENG:GTCO"
-      },
-      {
-        "description": "Access Bank",
-        "proName": "NSENG:ACCESSCORP"
-      },
-      {
-        "description": "Zenith Bank",
-        "proName": "NSENG:ZENITHBANK"
-      },
-      {
-        "description": "MTN",
-        "proName": "NSENG:MTNN"
-      },
-      {
-        "description": "AIRTEL",
-        "proName": "NSENG:AIRTELAFRI"
-      },
-      {
-        "description": "DANGOTE CEMENT",
-        "proName": "NSENG:DANGCEM"
-      },
-      {
-        "description": "BUAFOODS",
-        "proName": "NSENG:BUAFOODS"
-      },
-      {
-        "description": "BUA CEMENT",
-        "proName": "NSENG:BUACEMENT"
-      },
-      {
-        "description": "ARADEL",
-        "proName": "NSENG:ARADEL"
-      },
-      {
-        "description": "SEOLAT",
-        "proName": "NSENG:SEPLAT"
-      }
-    ],
-    "showSymbolLogo": true,
-    "isTransparent": false,
-    "displayMode": "adaptive",
-    "colorTheme": "dark",
-    "locale": "en"
-  }
-    </script>
+  <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+          "symbols": [
+            {
+              "proName": "FOREXCOM:SPXUSD",
+              "title": "S&P 500 Index"
+            },
+            {
+              "description": "First Bank",
+              "proName": "NSENG:FBNH"
+            },
+            {
+              "description": "UBA",
+              "proName": "NSENG:UBA"
+            },
+            {
+              "description": "GTCO",
+              "proName": "NSENG:GTCO"
+            },
+            {
+              "description": "Access Bank",
+              "proName": "NSENG:ACCESSCORP"
+            },
+            {
+              "description": "Zenith Bank",
+              "proName": "NSENG:ZENITHBANK"
+            },
+            {
+              "description": "MTN",
+              "proName": "NSENG:MTNN"
+            },
+            {
+              "description": "AIRTEL",
+              "proName": "NSENG:AIRTELAFRI"
+            },
+            {
+              "description": "DANGOTE CEMENT",
+              "proName": "NSENG:DANGCEM"
+            },
+            {
+              "description": "BUAFOODS",
+              "proName": "NSENG:BUAFOODS"
+            },
+            {
+              "description": "BUA CEMENT",
+              "proName": "NSENG:BUACEMENT"
+            },
+            {
+              "description": "ARADEL",
+              "proName": "NSENG:ARADEL"
+            },
+            {
+              "description": "SEOLAT",
+              "proName": "NSENG:SEPLAT"
+            }
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": false,
+            "largeChartUrl": "http://localhost:8000/stock_profile/",
+            "displayMode": "adaptive",
+            "colorTheme": "dark",
+            "locale": "en"
+          }
+        </script>
+      </div>
   </div>
   <!-- TradingView Widget END -->
             <!-- Page-specific content will be injected here -->
@@ -130,39 +135,40 @@
 </body>
 <footer class="footer">
     <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-md-2">
-                <h5>Quick Links</h5>
-                <a href="#">About us</a>
-                <a href="#">Services</a>
-                <a href="#">Learn</a>
-                <a href="#">Blog</a>
-                <a href="#">Career</a>
-                <a href="#">FAQ</a>
-            </div>
-            <div class="col-md-3">
-                <h5>Legal Information</h5>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms and Condition</a>
-                <a href="#">Disclaimer</a>
-            </div>
-            <div class="col-md-4">
-                <h5>Company Information</h5>
-                <p>AstraFidelis LLC</p>
-                <p>Email: support@astrafidelis.com</p>
-                <p>Phone: 080 XXX XX XXX</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
+      <div class="row justify-content-between">
+          <div class="col-md-2">
+              <h5>Quick Links</h5>
+              <a href="#">About us</a>
+              <a href="#">Services</a>
+              <a href="#">Learn</a>
+              <a href="#">Blog</a>
+              <a href="#">Career</a>
+              <a href="#">FAQ</a>
+          </div>
+          <div class="col-md-3">
+              <h5>Legal Information</h5>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms and Condition</a>
+              <a href="#">Disclaimer</a>
+          </div>
+          <div class="col-md-4">
+              <h5>Company Information</h5>
+              <p>AstraFidelis LLC</p>
+              <p>Email: support@astrafidelis.com</p>
+              <p>Phone: 080 XXX XX XXX</p>
+              <div class="social-icons">
+                  <a href="#"><i class="fab fa-whatsapp"></i></a>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+          </div>
         </div>
         <div class="text-center footer-bottom">
             <p>© 2024 AstraFidelis LLC. All rights reserved</p>
         </div>
-    </div>
+      </div>
+   </div>
 </footer> 
 
 

@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}AFM -Stock Profile {{ context.symbol }} {% endblock %}
+
+{% block content %}
+<div class="stock-profile-wrapper" style="background-color:rgb(163, 210, 252); min-height: 100vh; width: 100%; padding: 20px;">
+    <style>
+        .stock-profile-wrapper main {
+            display: grid;
+            width: 100%;
+            padding: 0 16px;
+            max-width: 1200px;
+            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            background-color:rgb(159, 244, 221);
+        }
+
+        .stock-profile-wrapper section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stock-profile-wrapper .span-full-grid,
+        .stock-profile-wrapper #symbol-info,
+        .stock-profile-wrapper #advanced-chart,
+        .stock-profile-wrapper #company-profile,
+        .stock-profile-wrapper #fundamental-data {
+            grid-column: 1 / -1;
+        }
+
+        .stock-profile-wrapper #ticker-tape {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .stock-profile-wrapper #advanced-chart {
+            height: 600px;
+        }
+
+        .stock-profile-wrapper #company-profile {
+            height: 400px;
+        }
+
+        .stock-profile-wrapper #fundamental-data {
+            height: 500px;
+        }
+
+        .stock-profile-wrapper #technical-analysis,
+        .stock-profile-wrapper #top-stories {
+            height: 450px;
+        }
+
+        @media (max-width: 768px) {
+            .stock-profile-wrapper main {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .stock-profile-wrapper section {
+                grid-column: 1 / -1;
+            }
+
+            .stock-profile-wrapper #advanced-chart {
+                height: 400px;
+            }
+
+            .stock-profile-wrapper #technical-analysis,
+            .stock-profile-wrapper #top-stories {
+                height: 400px;
+            }
+        }
+    </style>
+
+    <main>
+        <section id="symbol-info">
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-info.js" async>
+                {
+                    "symbol": "{{ context.exchange }}:{{ context.symbol }}",
+                    "width": "100%",
+                    "locale": "en",
+                    "colorTheme": "light",
+                    "isTransparent": true
+                }
+                </script>
+            </div>
+        </section>
+    
+        <section id="advanced-chart">
+            <div class="tradingview-widget-container" style="height:100%;width:100%">
+                <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {
+                    "autosize": true,
+                    "symbol": "{{ context.exchange }}:{{ context.symbol }}",
+                    "interval": "D",
+                    "timezone": "Etc/UTC",
+                    "theme": "light",
+                    "style": "1",
+                    "locale": "en",
+                    "allow_symbol_change": true,
+                    "calendar": false,
+                    "support_host": "https://www.tradingview.com"
+                }
+                </script>
+            </div>
+        </section>
+    
+        <section id="company-profile">
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js" async>
+                {
+                    "width": "100%",
+                    "height": "100%",
+                    "colorTheme": "light",
+                    "isTransparent": true,
+                    "symbol": "{{ context.exchange }}:{{ context.symbol }}",
+                    "locale": "en"
+                }
+                </script>
+            </div>
+        </section>
+    
+        <section id="fundamental-data">
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-financials.js" async>
+                {
+                    "colorTheme": "light",
+                    "isTransparent": true,
+                    "largeChartUrl": "",
+                    "displayMode": "adaptive",
+                    "width": "100%",
+                    "height": "100%",
+                    "symbol": "{{ context.exchange }}:{{ context.symbol }}",
+                    "locale": "en"
+                }
+                </script>
+            </div>
+        </section>
+    
+        <section id="technical-analysis">
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                {
+                    "interval": "15m",
+                    "width": "100%",
+                    "isTransparent": true,
+                    "height": "100%",
+                    "symbol": "{{ context.exchange }}:{{ context.symbol }}",
+                    "locale": "en",
+                    "colorTheme": "light"
+                }
+                </script>
+            </div>
+        </section>
+    
+        <section id="top-stories">
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                {
+                    "feedMode": "symbol",
+                    "symbol": "{{ context.exchange }}:{{ context.symbol }}",
+                    "colorTheme": "light",
+                    "isTransparent": true,
+                    "displayMode": "regular",
+                    "width": "100%",
+                    "height": "100%",
+                    "locale": "en"
+                }
+                </script>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock content %}
+	<!--<script>
+		function getQueryParam(param) {
+			let urlSearchParams = new URLSearchParams(window.location.search);
+			return urlSearchParams.get(param);
+		}
+		function readSymbolFromQueryString() {
+			return getQueryParam('tvwidgetsymbol');
+		}
+		const symbol = readSymbolFromQueryString() || 'NASDAQ:AAPL';
+		if (symbol) {
+			document.title = `Stock Details - ${symbol}`;
+		}
+	</script>-->
+

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} About Astra Fidelis LLC {% endblock %} 
+{% block content %}
+<style>
+    .about-page-wrapper {
+        background-color: #f0fff0;  /* Very light green */
+        /* or you could use rgba for more control: */
+        /* background-color: rgba(144, 238, 144, 0.1); */
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+
+    .about-header {
+        background-color: #0066cc;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: -20px -20px 20px -20px; /* Offset parent padding */
+    }
+
+    .about-header__title {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    .about-header__subtitle {
+        font-size: 1.2rem;
+        color: white;
+    }
+    
+    .about-container {
+        max-width: 1200px;
+        margin: 8rem auto 6rem;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-container__title {
+        text-align: center;
+        color: #006600;
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .about-section {
+        margin-bottom: 20px;
+    }
+
+    .about-section__title {
+        color: #003366;
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+    }
+
+    .about-section__text {
+        font-size: 1.1rem;
+        color: #333333;
+        line-height: 1.8;
+    }
+</style>
+<div class="about-page-wrapper">
+    <div class="about-header">
+        <h1 class="about-header__title">Welcome to Astra Fidelis LLC</h1>
+        <p class="about-header__subtitle">Empowering individuals through financial education and guidance</p>
+    </div>
+
+    <div class="about-container">
+        <h2 class="about-container__title">About Us</h2>
+        
+        <div class="about-section">
+            <h3 class="about-section__title">Our Mission</h3>
+            <p class="about-section__text">Astra Fidelis LLC, also known as AFM, is committed to empowering individuals and organizations through comprehensive financial education and investment guidance. We believe that through financial empowerment, we can build a resilient and inclusive economy for everyone.</p>
+        </div>
+
+        <div class="about-section">
+            <h3 class="about-section__title">Who We Are</h3>
+            <p class="about-section__text">Founded by Feji Iyeke, affectionately known as "Your Money Guy," Astra Fidelis is dedicated to providing clear, actionable insights into personal and business finances. Our team is driven by a passion to demystify financial concepts and help you achieve your goals with confidence.</p>
+        </div>
+
+        <div class="about-section">
+            <h3 class="about-section__title">Our Vision</h3>
+            <p class="about-section__text">We envision a world where financial literacy is accessible to all, enabling people to make informed decisions, grow wealth sustainably, and secure their futures. At Astra Fidelis, we are committed to fostering trust and delivering excellence in every interaction.</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

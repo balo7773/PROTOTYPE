@@ -36,7 +36,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=70, default="Default Name")
     age = models.PositiveIntegerField(null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures', null=True, blank=True)
 
     USERNAME_FIELD = "email"  # Set email as the unique identifier
     REQUIRED_FIELDS = ["full_name", "age"]  # Fields required when creating a user
