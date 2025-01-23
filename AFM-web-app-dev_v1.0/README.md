@@ -63,23 +63,20 @@ This Django web application is the final portfolio project developed by Balogun 
 ## How to Use
 1. Navigate to the homepage to view the latest news.
 2. Use pagination controls to browse through the news items.
-3. Click on a news item to get detailed insights and AI-powered explanations.
-4. Sign up or log in to access additional features (if applicable).
-
-## Challenges Overcome
-- Efficiently handling dynamic data without persistent storage.
-- Implementing caching mechanisms to optimize load times.
-- Integrating AI capabilities for content summarization and explanation.
-- Designing a user-friendly and responsive interface.
+3. Click on a news item to get detailed news.
+4. Also, click on either the crypto or stock market
+dropdown through the financial market menu to get a list of them.
+5. You could filter and screen them based on your choice and view each
+profile individually.
 
 ## Future Improvements
 - Explore database integration for optional persistent storage.
-- Enhance AI capabilities to provide deeper insights.
+- Include AI capabilities to provide deeper insights.
 - Add more news sources and customization options for users.
 - Optimize caching strategies for better performance.
 
 ## Acknowledgements
-We extend our gratitude to our mentors, classmates, and everyone who supported us throughout this project. Your guidance and feedback have been invaluable.
+We thank the ALX mentors, classmates, and everyone who supported us throughout this project. Your guidance and feedback have been invaluable.
 
 ---
 Developed by: **Balogun A.D. & Orngu E.O.**  
